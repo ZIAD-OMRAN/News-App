@@ -3,6 +3,7 @@ import 'package:news_app/commen/appcolor.dart';
 
 class AppThem {
   static ThemeData lightmode = ThemeData(
+    brightness: Brightness.light,
     iconTheme: IconThemeData(color: Appcolors.darkcolor),
     hintColor: Appcolors.darkcolor,
     scaffoldBackgroundColor: Appcolors.lightcolor,
@@ -13,7 +14,7 @@ class AppThem {
         fontWeight: FontWeight.bold,
       ),
 
-      iconTheme: IconThemeData(color: Appcolors.darkcolor, size: 16),
+      iconTheme: IconThemeData(color: Appcolors.darkcolor, size: 25),
       backgroundColor: Appcolors.lightcolor,
       centerTitle: true,
     ),
@@ -31,6 +32,7 @@ class AppThem {
     ),
   );
   static ThemeData darktmode = ThemeData(
+    brightness: Brightness.dark,
     drawerTheme: DrawerThemeData(backgroundColor: Appcolors.lightcolor),
     iconTheme: IconThemeData(color: Appcolors.lightcolor),
     hintColor: Appcolors.lightcolor,
@@ -42,7 +44,7 @@ class AppThem {
         fontSize: 24,
         fontWeight: FontWeight.bold,
       ),
-      iconTheme: IconThemeData(color: Appcolors.lightcolor),
+      iconTheme: IconThemeData(size: 25, color: Appcolors.lightcolor),
       backgroundColor: Appcolors.darkcolor,
       centerTitle: true,
     ),

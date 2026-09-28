@@ -1,26 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/commen/them_mode.dart';
+import 'package:news_app/features/search_featuers/searchViwe/search_screen.dart';
+import 'package:news_app/features/search_featuers/searchViwe/serch_cubit/cubit.dart';
+import 'package:news_app/features/search_featuers/search_data.dart';
 import 'package:news_app/screens/home_screen.dart';
+import 'package:news_app/network/providers/them_provider.dart';
+import 'package:provider/provider.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(create: (_) => ThemProvider(), child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
+    final providerthem = Provider.of<ThemProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
       theme: AppThem.lightmode,
       darkTheme: AppThem.darktmode,
-      themeMode: ThemeMode.dark,
+      themeMode: providerthem.isDark ? ThemeMode.dark : ThemeMode.light,
 
       initialRoute: HomeScreen.routename,
-      routes: {HomeScreen.routename: (context) => HomeScreen()},
+      routes: {HomeScreen.routename: (context) => HomeScreen(),
+      SearchScreen.routename :(context) =>  BlocProvider(
+        
+        create: (context) => SearchCubit(searchAPI:SearchData() )
+        ,child: SearchScreen())},
     );
   }
 }
+ 

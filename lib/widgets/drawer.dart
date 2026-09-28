@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/commen/appcolor.dart';
+import 'package:news_app/network/providers/them_provider.dart';
 import 'package:news_app/screens/home_screen.dart';
+import 'package:provider/provider.dart';
 
 class DrawedWidget extends StatelessWidget {
   const DrawedWidget({
@@ -15,7 +17,7 @@ class DrawedWidget extends StatelessWidget {
   final String routename;
 
   static final List<DropdownMenuEntry<String>> categoryEntries = [
-    const DropdownMenuEntry(value: 'Drak', label: 'Drak'),
+    const DropdownMenuEntry(value: 'Dark', label: 'Dark'),
     const DropdownMenuEntry(value: 'light', label: 'light'),
   ];
   static final List<DropdownMenuEntry<String>> languages = [
@@ -26,7 +28,7 @@ class DrawedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: screenwidth * .6,
+      width: screenwidth * .7,
       backgroundColor: Appcolors.darkcolor,
       child: Column(
         children: [
@@ -36,7 +38,7 @@ class DrawedWidget extends StatelessWidget {
             width: double.infinity,
             color: Colors.white,
             child: Text(
-              'New App',
+              'News App',
               style: Theme.of(context).textTheme.titleLarge
                   ?.copyWith(color: Appcolors.darkcolor),
             ),
@@ -49,10 +51,12 @@ class DrawedWidget extends StatelessWidget {
               child: Row(
                 spacing: 10,
                 children: [
-                  Icon(Icons.home_rounded),
+                  Icon(Icons.home_rounded, color: Colors.white),
                   Text(
                     'Go To Home',
-                    style: Theme.of(context).textTheme.bodyMedium,
+
+                    style: Theme.of(context).textTheme.bodyMedium
+                        ?.copyWith(color: Colors.white),
                   ),
                 ],
               ),
@@ -67,11 +71,22 @@ class DrawedWidget extends StatelessWidget {
                 Row(
                   spacing: 10,
                   children: [
-                    Icon(Icons.draw_rounded),
-                    Text('Them', style: Theme.of(context).textTheme.bodyMedium),
+                    Icon(Icons.draw_rounded, color: Colors.white),
+                    Text(
+                      'Them',
+                      style: Theme.of(context).textTheme.bodyMedium
+                          ?.copyWith(color: Colors.white),
+                    ),
                   ],
                 ),
                 DropdownMenu<String>(
+                  onSelected: (value) {
+                    if (value == 'Dark') {
+                      context.read<ThemProvider>().changeThem(true);
+                    } else if (value == 'light') {
+                      context.read<ThemProvider>().changeThem(false);
+                    }
+                  },
                   trailingIcon: Icon(
                     Icons.arrow_drop_down,
                     size: 35,
@@ -87,7 +102,8 @@ class DrawedWidget extends StatelessWidget {
                       borderSide: const BorderSide(color: Colors.blue),
                     ),
                   ),
-                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                  textStyle: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: Colors.white),
                   width: 250,
                   hintText: 'Select Them',
                   dropdownMenuEntries: categoryEntries,
@@ -104,10 +120,11 @@ class DrawedWidget extends StatelessWidget {
                 Row(
                   spacing: 10,
                   children: [
-                    Icon(Icons.language_rounded),
+                    Icon(Icons.language_rounded, color: Colors.white),
                     Text(
                       'Language',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium
+                          ?.copyWith(color: Colors.white),
                     ),
                   ],
                 ),
@@ -128,7 +145,8 @@ class DrawedWidget extends StatelessWidget {
                     ),
                   ),
                   width: 250,
-                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                  textStyle: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: Colors.white),
                   hintText: 'Select Language',
 
                   dropdownMenuEntries: languages,
