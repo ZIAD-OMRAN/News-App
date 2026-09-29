@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/search_featuers/searchViwe/serch_cubit/cubit.dart';
 import 'package:news_app/features/search_featuers/searchViwe/serch_cubit/statues.dart';
+import 'package:news_app/features/search_featuers/searchViwe/widget/newscard.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -13,17 +14,33 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final TextEditingController controller = TextEditingController();
+  late TextEditingController controller;
+  late ScrollController _ScrollController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _ScrollController = ScrollController();
+    _ScrollController.addListener(onscroll);
+    controller = TextEditingController();
+  }
+
+  void onscroll() {
+    if (_ScrollController.position.pixels >=
+        _ScrollController.position.maxScrollExtent - 200) {
+      context.read<SearchCubit>().search(controller.text);
+    }
+  }
 
   @override
   void dispose() {
     controller.dispose();
+    _ScrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double heightscreen = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -84,71 +101,12 @@ class _SearchScreenState extends State<SearchScreen> {
 
                   if (state is SucsessState) {
                     return ListView.builder(
+                      controller: _ScrollController,
                       itemCount: state.articles.length,
                       itemBuilder: (context, index) {
                         final article = state.articles[index];
 
-                        return Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            height: heightscreen * .35,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: Theme.of(context).hintColor,
-                                width: 2,
-                              ),
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 10,
-
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(12),
-                                    ),
-                                    child: Image.network(
-                                      article.urlToImage ?? '',
-                                      height: heightscreen * .20,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Text(
-                                    article.title ?? '',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'BY : ${article.author ?? ''}',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Text(
-                                        article.publishedAt ?? '',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
+                        return Newscard(article: article);
                       },
                     );
                   }

@@ -15,21 +15,24 @@ class SearchData {
           connectTimeout: Duration(seconds: 10),
           receiveTimeout: Duration(seconds: 10),
         ),
-      );
-  // ..interceptors.add(
-  //   PrettyDioLogger(
-  //     requestHeader: true,
-  //     requestBody: true,
-  //     responseBody: true,
-  //     error: true,
-  //   ),
-  // );
+      )..interceptors.add(PrettyDioLogger(requestHeader: true, error: true));
 
-  Future<List<ArticleModel>> searchArt(String q) async {
+  Future<List<ArticleModel>> searchArt(
+    String q,
+    int currentpage,
+    int pageSize,
+  ) async {
+    
     try {
       final response = await dio.get(
         Appconfig.eveything,
-        queryParameters: {'q': q, 'apiKey': Appconfig.apikey, 'language': 'en'},
+        queryParameters: {
+          'q': q,
+          'apiKey': Appconfig.apikey,
+          'language': 'en',
+          'pageSize': pageSize,
+          'page': currentpage,
+        },
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
