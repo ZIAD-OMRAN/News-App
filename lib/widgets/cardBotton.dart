@@ -1,12 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/enums/category.dart';
+import 'package:news_app/screens/cards_screen.dart';
 
 class Cardbotton extends StatelessWidget {
-  const Cardbotton({super.key, required this.right});
+  const Cardbotton({super.key, required this.right,required this.cat});
   final bool right;
+  final Category cat ;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, CardsScreen.routename , arguments:cat );
+      },
       child: Container(
         width: 167,
         height: 54,

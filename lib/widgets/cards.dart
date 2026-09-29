@@ -36,7 +36,7 @@ class Cards extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Cardbotton(right: right),
+            child: Cardbotton(right: right, cat: cat,),
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/search_featuers/artiiclsModel.dart';
+import 'package:news_app/screens/webview.dart';
 
 class PreviewNews extends StatelessWidget {
   const PreviewNews({super.key, required this.article});
@@ -43,7 +44,13 @@ class PreviewNews extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Webview.routename,
+                      arguments: article,
+                    );
+                  },
                   child: Container(
                     height: 50,
                     alignment: Alignment.center,

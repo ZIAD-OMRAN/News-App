@@ -1,3 +1,4 @@
+import 'package:news_app/enums/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/commen/them_mode.dart';
@@ -6,9 +7,11 @@ import 'package:news_app/features/search_featuers/searchViwe/search_screen.dart'
 import 'package:news_app/features/search_featuers/searchViwe/serch_cubit/cubit.dart';
 import 'package:news_app/features/search_featuers/searchViwe/widget/newscard.dart';
 import 'package:news_app/features/search_featuers/search_data.dart';
+import 'package:news_app/screens/cards_screen.dart';
 import 'package:news_app/screens/home_screen.dart';
 import 'package:news_app/network/providers/them_provider.dart';
 import 'package:news_app/screens/preview_news.dart';
+import 'package:news_app/screens/webview.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -42,7 +45,18 @@ class MyApp extends StatelessWidget {
         Newscard.routename: (context) => Newscard(
           article: ModalRoute.of(context)!.settings.arguments as ArticleModel,
         ),
-        PreviewNews.routename :(context) => PreviewNews(article: ModalRoute.of(context)!.settings.arguments as ArticleModel,)
+        PreviewNews.routename: (context) => PreviewNews(
+          article: ModalRoute.of(context)!.settings.arguments as ArticleModel,
+        ),
+        Webview.routename: (context) => Webview(
+          article: ModalRoute.of(context)!.settings.arguments as ArticleModel,
+        ),
+        CardsScreen.routename: (context) => BlocProvider(
+          create: (context) => SearchCubit(searchAPI: SearchData()),
+          child: CardsScreen(
+            cat: ModalRoute.of(context)!.settings.arguments as Category,
+          ),
+        ),
       },
     );
   }
